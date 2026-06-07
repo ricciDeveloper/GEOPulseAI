@@ -1,0 +1,198 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id            String         @id @default(uuid())
+  email         String         @unique
+  name          String?
+  role          String         @default("USER") // "ADMIN" | "USER"
+  passwordHash  String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  deletedAt     DateTime?
+
+  alerts        Alert[]
+  notifications Notification[]
+  auditLogs     AuditLog[]
+
+  @@map("users")
+}
+
+model Source {
+  id          String      @id @default(uuid())
+  name        String
+  url         String      @unique
+  rssUrl      String?
+  isActive    Boolean     @default(true)
+  trustScore  Float       @default(0.0)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  deletedAt   DateTime?
+
+  articles    Article[]
+  crawlLogs   CrawlLog[]
+
+  @@map("sources")
+}
+
+model Article {
+  id          String      @id @default(uuid())
+  sourceId    String
+  title       String
+  url         String      @unique
+  content     String
+  rawHtml     String?
+  publishedAt DateTime
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  deletedAt   DateTime?
+
+  source      Source      @relation(fields: [sourceId], references: [id])
+  summaries   Summary[]
+  scores      Score[]
+  entities    Entity[]
+  tags        Tag[]
+
+  @@index([publishedAt])
+  @@map("articles")
+}
+
+model Summary {
+  id          String      @id @default(uuid())
+  articleId   String
+  content     String
+  model       String      // e.g., "gemini-2.5-pro"
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  article     Article     @relation(fields: [articleId], references: [id])
+
+  @@map("summaries")
+}
+
+model Tag {
+  id          String      @id @default(uuid())
+  name        String      @unique
+  createdAt   DateTime    @default(now())
+
+  articles    Article[]
+
+  @@map("tags")
+}
+
+model Topic {
+  id          String      @id @default(uuid())
+  name        String      @unique
+  createdAt   DateTime    @default(now())
+
+  trends      Trend[]
+
+  @@map("topics")
+}
+
+model Trend {
+  id          String      @id @default(uuid())
+  topicId     String
+  impactScore Float
+  momentum    Float
+  createdAt   DateTime    @default(now())
+
+  topic       Topic       @relation(fields: [topicId], references: [id])
+  insights    Insight[]
+
+  @@map("trends")
+}
+
+model Alert {
+  id          String      @id @default(uuid())
+  userId      String
+  keyword     String
+  channel     String      // "EMAIL" | "SLACK" | "TELEGRAM" | "DISCORD"
+  isActive    Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+
+  user        User        @relation(fields: [userId], references: [id])
+
+  @@map("alerts")
+}
+
+model Notification {
+  id          String      @id @default(uuid())
+  userId      String
+  title       String
+  message     String
+  isRead      Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+
+  user        User        @relation(fields: [userId], references: [id])
+
+  @@map("notifications")
+}
+
+model Entity {
+  id          String      @id @default(uuid())
+  name        String
+  type        String      // PERSON, ORG, LOC
+  createdAt   DateTime    @default(now())
+
+  articles    Article[]
+
+  @@map("entities")
+}
+
+model Insight {
+  id          String      @id @default(uuid())
+  trendId     String
+  content     String
+  actionable  Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+
+  trend       Trend       @relation(fields: [trendId], references: [id])
+
+  @@map("insights")
+}
+
+model Score {
+  id          String      @id @default(uuid())
+  articleId   String
+  geoScore    Float
+  aeoScore    Float
+  aiVisibility Float
+  createdAt   DateTime    @default(now())
+
+  article     Article     @relation(fields: [articleId], references: [id])
+
+  @@map("scores")
+}
+
+model CrawlLog {
+  id          String      @id @default(uuid())
+  sourceId    String
+  status      String      // SUCCESS, FAILED
+  itemsFound  Int         @default(0)
+  errorMessage String?
+  createdAt   DateTime    @default(now())
+
+  source      Source      @relation(fields: [sourceId], references: [id])
+
+  @@map("crawl_logs")
+}
+
+model AuditLog {
+  id          String      @id @default(uuid())
+  userId      String
+  action      String
+  resource    String
+  details     String?
+  createdAt   DateTime    @default(now())
+
+  user        User        @relation(fields: [userId], references: [id])
+
+  @@map("audit_logs")
+}

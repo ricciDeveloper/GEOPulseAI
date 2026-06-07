@@ -1,0 +1,9 @@
+{
+  "name": "@geopulse/testing",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "vitest": "^1.6.0",
+    "@playwright/test": "^1.44.0"
+  }
+}

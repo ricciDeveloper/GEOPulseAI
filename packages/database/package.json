@@ -1,0 +1,13 @@
+{
+  "name": "@geopulse/database",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.ts",
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "@geopulse/core": "*"
+  },
+  "devDependencies": {
+    "prisma": "^5.14.0"
+  }
+}
