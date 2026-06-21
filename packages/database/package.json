@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "main": "index.ts",
+  "scripts": {
+    "build": "prisma generate"
+  },
   "dependencies": {
     "@prisma/client": "^5.22.0",
     "@geopulse/core": "*"
