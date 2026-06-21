@@ -27,17 +27,17 @@ export class GeminiProvider implements AiProvider {
     const model = this.genAI.getGenerativeModel({ model: modelName });
     
     const prompt = `
-      Analise o seguinte texto sob a ótica de mecanismos de busca por IA (AEO), visibilidade de IA e otimização para IA (GEO).
+      Analise o seguinte texto (notícia ou artigo sobre atualização do mercado de busca e IA) sob a ótica de aprendizado e atualização profissional de SEO, GEO (Otimização para IA) e AEO (Resposta Direta).
       
       Gere um JSON contendo os seguintes campos exatamente:
-      - summary: Um resumo executivo claro de até 3 frases.
-      - topics: Um array de strings com tópicos/tags principais do texto (limite de 5).
-      - geoScore: Uma nota de 0 a 100 indicando quão otimizado o texto está para mecanismos de busca por IA (Generative Engine Optimization).
-      - aeoScore: Uma nota de 0 a 100 de otimização para resposta direta (Answer Engine Optimization).
-      - aiVisibility: Uma nota de 0 a 100 de visibilidade e chance do texto ser recomendado/citado por IAs.
-      - eeatAnalysis: Uma análise sucinta de 2 a 3 frases dos elementos de E-E-A-T (Experiência, Especialidade, Autoridade e Confiabilidade).
-      - citationProbability: Uma nota de 0 a 100 representando a probabilidade de citação direta do texto como fonte.
-      - semanticAuthority: Uma análise sucinta de 2 a 3 frases da autoridade semântica e densidade de tópicos correlatos no texto.
+      - summary: Um resumo didático e explicativo da novidade anunciada ou detalhada no texto (de até 3 frases).
+      - topics: Um array de strings com os tópicos ou conceitos-chave envolvidos na notícia (limite de 5).
+      - geoScore: Uma nota de 0 a 100 indicando a relevância desta novidade/mudança para estratégias de Otimização para IA (GEO).
+      - aeoScore: Uma nota de 0 a 100 indicando a relevância desta novidade/mudança para buscas de resposta direta (AEO).
+      - aiVisibility: Uma nota de 0 a 100 representando o Impacto Geral que essa notícia causa no ecossistema de buscas.
+      - eeatAnalysis: Explicação clara de "O Que Mudou" (de até 3 frases) detalhando a atualização técnica ou a novidade.
+      - citationProbability: Uma nota de 0 a 100 representando o "Valor Educativo" (o quão crucial é para um profissional dominar e entender esta mudança).
+      - semanticAuthority: Guia prático de "Como se Adaptar" (de até 3 frases) com recomendações de ações concretas para SEOs e criadores de conteúdo.
       
       IMPORTANTE: Retorne APENAS o JSON válido. Não use formatação markdown de código como \`\`\`json.
       

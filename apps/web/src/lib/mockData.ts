@@ -72,11 +72,11 @@ export const mockArticles: MockArticle[] = [
     geoScore: 88,
     aeoScore: 82,
     aiVisibility: 91,
-    summary: 'GEO está surgindo como substituto do SEO tradicional, focando em otimização para motores baseados em LLMs como Gemini e Perplexity. O uso de formatação estruturada, estatísticas concretas e relevância semântica aumenta em até 40% a presença de sites nas respostas dessas IAs.',
+    summary: 'Este artigo serve como um guia didático para GEO, explicando como os novos motores de busca baseados em IA (como Gemini e Perplexity) indexam e citam informações.',
     topics: ['GEO', 'SEO', 'LLM', 'AI Search', 'Optimization'],
-    eeatAnalysis: 'Excelente conformidade de E-E-A-T devido à menção de metodologias e estudos empíricos. Apresenta alta confiabilidade pelas referências técnicas.',
-    citationProbability: 89,
-    semanticAuthority: 'Alta autoridade semântica no tópico de IA Search, com forte densidade de palavras-chave estruturadas e termos do ecossistema de busca moderna.'
+    eeatAnalysis: 'Os motores de busca baseados em IA usam RAG para buscar informações em tempo real e priorizam conteúdos que contenham dados estatísticos, tabelas organizadas e termos científicos claros.',
+    citationProbability: 90,
+    semanticAuthority: 'Profissionais de SEO devem estruturar o conteúdo com tabelas comparativas de dados, citar fontes primárias confiáveis e destacar conclusões logo no início dos parágrafos.'
   },
   {
     id: 'art-2',
@@ -89,11 +89,11 @@ export const mockArticles: MockArticle[] = [
     geoScore: 74,
     aeoScore: 95,
     aiVisibility: 86,
-    summary: 'AEO (Answer Engine Optimization) prioriza respostas diretas e sucintas para consultas de voz e chat. Ferramentas de RAG em tempo real preferem explicações conceituais claras com definições explícitas de termos técnicos.',
+    summary: 'Estudo detalhado sobre Answer Engine Optimization (AEO), analisando como motores de resposta selecionam fontes de informação diretas em interfaces de chat ou voz.',
     topics: ['AEO', 'RAG', 'Perplexity', 'Direct Answer'],
-    eeatAnalysis: 'Apresenta forte autoridade técnica, originada do próprio time da Perplexity. O nível de Especialidade e Confiabilidade é máximo (10/10).',
-    citationProbability: 95,
-    semanticAuthority: 'Autoridade absoluta sobre o mecanismo de busca e funcionamento do RAG, com vocabulário técnico extremamente contextualizado.'
+    eeatAnalysis: 'As interfaces conversacionais dão preferência a parágrafos curtos, definições conceituais claras de termos técnicos e estruturas do tipo pergunta-resposta (Q&A).',
+    citationProbability: 85,
+    semanticAuthority: 'Implemente FAQs estruturadas nas páginas de produtos, escreva definições diretas no formato "O que é..." e responda de forma assertiva antes de aprofundar no conteúdo.'
   },
   {
     id: 'art-3',
@@ -106,11 +106,11 @@ export const mockArticles: MockArticle[] = [
     geoScore: 92,
     aeoScore: 78,
     aiVisibility: 95,
-    summary: 'O Google lançou a atualização de Core de Maio de 2026, focando em aprimorar a detecção de experiência prática real (E-E-A-T) e punir conteúdo gerado por IA em massa de baixa qualidade.',
+    summary: 'Análise da atualização Core de Maio de 2026 do Google, que reforçou os critérios de conteúdo útil e a detecção de experiência de autoria (E-E-A-T).',
     topics: ['Google Update', 'EEAT', 'SEO', 'Helpful Content'],
-    eeatAnalysis: 'O documento oficial do Google serve como principal referencial de autoridade (E-E-A-T) de busca. Nível máximo de confiabilidade.',
-    citationProbability: 98,
-    semanticAuthority: 'Alta autoridade semântica para diretrizes de busca e indexação, definindo os novos termos e padrões da web.'
+    eeatAnalysis: 'O algoritmo do Google está priorizando relatos em primeira pessoa, avaliações reais de produtos e depoimentos autênticos, penalizando conteúdos gerados por IA genéricos.',
+    citationProbability: 95,
+    semanticAuthority: 'Escreva artigos baseados em experiências próprias, inclua fotos ou vídeos originais demonstrando o uso de produtos e evite repetir conteúdos genéricos da web.'
   },
   {
     id: 'art-4',
@@ -123,10 +123,10 @@ export const mockArticles: MockArticle[] = [
     geoScore: 82,
     aeoScore: 68,
     aiVisibility: 79,
-    summary: 'Um estudo recente mostra que os resumos por IA do Google reduziram a taxa de clique externo em 25%. No entanto, sites estruturados com tabelas e autoridade de marca forte mantêm ótimas taxas de citação.',
+    summary: 'Estudo prático sobre a queda de cliques orgânicos devido aos resumos gerados por IA (AI Overviews) nas páginas de resultados do Google.',
     topics: ['AI Overviews', 'Google Search', 'CTR', 'Structured Data'],
-    eeatAnalysis: 'Baseado em dados estatísticos e estudo de coorte de 10 mil buscas, o que adiciona credibilidade científica média-alta à análise.',
-    citationProbability: 75,
-    semanticAuthority: 'Autoridade semântica moderada. O texto é focado em comportamento de busca e análises estatísticas, com relevância técnica razoável.'
+    eeatAnalysis: 'A exibição de respostas automáticas no topo da busca reduz a necessidade de cliques externos. Apenas marcas de forte autoridade ou sites com ricas tabelas de dados são linkados como fontes.',
+    citationProbability: 80,
+    semanticAuthority: 'Adapte sua estratégia para cobrir dúvidas complexas que a IA não consegue responder de forma satisfatória e use marcação de dados estruturados Schema.org para tabelas.'
   }
 ];

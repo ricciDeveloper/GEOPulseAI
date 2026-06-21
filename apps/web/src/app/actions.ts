@@ -291,14 +291,14 @@ export async function syncSourcesAction() {
             const visibility = Math.round((geo * 0.6) + (aeo * 0.4));
             
             return {
-              summary: 'Esta análise foi simulada devido à falta da chave GEMINI_API_KEY. O texto aborda tópicos importantes sobre otimização para IA e SEO semântico.',
-              topics: ['Simulado', 'SEO', 'AI Search'],
+              summary: 'Esta análise (simulada) resume didaticamente a mudança observada no mercado de busca por IA, destacando os pontos importantes da notícia.',
+              topics: ['Aprendizado', 'SEO', 'Atualização'],
               geoScore: geo,
               aeoScore: aeo,
               aiVisibility: visibility,
-              eeatAnalysis: 'Estrutura de confiabilidade simulada, demonstrando citações úteis e consistência técnica na argumentação.',
-              citationProbability: randomScore(55, 90),
-              semanticAuthority: 'Nível semântico adequado contendo correlações básicas com as principais tendências de busca generativa.'
+              eeatAnalysis: 'O algoritmo de busca por IA ou motores tradicionais sofreu ajustes focados em relevância semântica e respostas baseadas em fatos reais.',
+              citationProbability: randomScore(70, 95),
+              semanticAuthority: 'Recomenda-se estruturar as páginas com dados estruturados explícitos e respostas diretas a perguntas de usuários.'
             };
           }
         };

@@ -274,10 +274,10 @@ export default function Dashboard({ stats, articles: initialArticles, sources: i
             <span className="text-xs font-semibold uppercase tracking-wider text-violet-400">GeoPulse AI Analytics</span>
           </div>
           <h1 id="dashboard-title" className="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-violet-300 via-indigo-200 to-cyan-300 bg-clip-text text-transparent">
-            GEO &amp; Search Intelligence
+            GEO &amp; Search Updates Hub
           </h1>
           <p className="mt-1 text-sm text-zinc-400">
-            Monitoramento de SEO Generativo, Answer Engine Optimization e visibilidade em inteligências artificiais.
+            Plataforma didática de monitoramento de SEO Generativo, Answer Engine Optimization e aprendizado contínuo sobre IA.
           </p>
         </div>
 
@@ -351,9 +351,9 @@ export default function Dashboard({ stats, articles: initialArticles, sources: i
         {/* GEO Score */}
         <div className="glass-panel rounded-2xl p-6 flex items-center justify-between">
           <div>
-            <span className="text-xs font-semibold text-violet-400 uppercase tracking-wide">Média GEO</span>
+            <span className="text-xs font-semibold text-violet-400 uppercase tracking-wide">Relevância GEO</span>
             <div className="text-3xl font-bold tracking-tight text-white mt-1">{statsData.avgGeoScore}%</div>
-            <span className="text-[10px] text-zinc-500 mt-1 block">Generative Engine Opt.</span>
+            <span className="text-[10px] text-zinc-500 mt-1 block">Importância para IA</span>
           </div>
           <div className="relative h-14 w-14 flex items-center justify-center">
             <svg className="w-full h-full transform -rotate-90">
@@ -367,9 +367,9 @@ export default function Dashboard({ stats, articles: initialArticles, sources: i
         {/* AEO Score */}
         <div className="glass-panel rounded-2xl p-6 flex items-center justify-between">
           <div>
-            <span className="text-xs font-semibold text-cyan-400 uppercase tracking-wide">Média AEO</span>
+            <span className="text-xs font-semibold text-cyan-400 uppercase tracking-wide">Relevância AEO</span>
             <div className="text-3xl font-bold tracking-tight text-white mt-1">{statsData.avgAeoScore}%</div>
-            <span className="text-[10px] text-zinc-500 mt-1 block">Answer Engine Opt.</span>
+            <span className="text-[10px] text-zinc-500 mt-1 block">Respostas Diretas</span>
           </div>
           <div className="relative h-14 w-14 flex items-center justify-center">
             <svg className="w-full h-full transform -rotate-90">
@@ -383,9 +383,9 @@ export default function Dashboard({ stats, articles: initialArticles, sources: i
         {/* AI Visibility */}
         <div className="glass-panel rounded-2xl p-6 flex items-center justify-between">
           <div>
-            <span className="text-xs font-semibold text-rose-400 uppercase tracking-wide">AI Visibility</span>
+            <span className="text-xs font-semibold text-rose-400 uppercase tracking-wide">Impacto Geral</span>
             <div className="text-3xl font-bold tracking-tight text-white mt-1">{statsData.avgAiVisibility}%</div>
-            <span className="text-[10px] text-zinc-500 mt-1 block">Visibilidade em Respostas</span>
+            <span className="text-[10px] text-zinc-500 mt-1 block">Peso no Ecossistema</span>
           </div>
           <div className="relative h-14 w-14 flex items-center justify-center">
             <svg className="w-full h-full transform -rotate-90">
@@ -632,7 +632,7 @@ export default function Dashboard({ stats, articles: initialArticles, sources: i
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-semibold text-zinc-400 w-8">VISIB</span>
+                      <span className="text-[10px] font-semibold text-zinc-400 w-8">IMPACT</span>
                       <span className={`text-xs font-bold px-2 py-0.5 rounded border ${getScoreBgColor(art.aiVisibility)}`}>
                         {art.aiVisibility}
                       </span>
@@ -668,7 +668,7 @@ export default function Dashboard({ stats, articles: initialArticles, sources: i
               <div className="flex items-center justify-between pb-6 mb-6 border-b border-zinc-900">
                 <div className="flex items-center gap-2">
                   <Sparkles size={18} className="text-violet-400" />
-                  <h3 className="text-sm font-bold text-zinc-300">Análise GEO/AEO Completa</h3>
+                  <h3 className="text-sm font-bold text-zinc-300">Análise de Impacto &amp; Aprendizado</h3>
                 </div>
                 <div className="flex items-center gap-3">
                   {/* Viewed indicator in drawer */}
@@ -709,19 +709,19 @@ export default function Dashboard({ stats, articles: initialArticles, sources: i
               {/* Radial Metrics Row */}
               <div className="grid grid-cols-3 gap-4 p-4 rounded-xl bg-zinc-900/40 border border-zinc-900/80 mb-6">
                 <div className="flex flex-col items-center text-center">
-                  <span className="text-[10px] text-zinc-400 font-semibold mb-2">GEO Score</span>
+                  <span className="text-[10px] text-zinc-400 font-semibold mb-2">Relevância GEO</span>
                   <span className={`text-lg font-bold px-3 py-1 rounded-lg border ${getScoreBgColor(selectedArticle.geoScore)}`}>
                     {selectedArticle.geoScore}%
                   </span>
                 </div>
                 <div className="flex flex-col items-center text-center">
-                  <span className="text-[10px] text-zinc-400 font-semibold mb-2">AEO Score</span>
+                  <span className="text-[10px] text-zinc-400 font-semibold mb-2">Relevância AEO</span>
                   <span className={`text-lg font-bold px-3 py-1 rounded-lg border ${getScoreBgColor(selectedArticle.aeoScore)}`}>
                     {selectedArticle.aeoScore}%
                   </span>
                 </div>
                 <div className="flex flex-col items-center text-center">
-                  <span className="text-[10px] text-zinc-400 font-semibold mb-2">Visibilidade</span>
+                  <span className="text-[10px] text-zinc-400 font-semibold mb-2">Impacto Geral</span>
                   <span className={`text-lg font-bold px-3 py-1 rounded-lg border ${getScoreBgColor(selectedArticle.aiVisibility)}`}>
                     {selectedArticle.aiVisibility}%
                   </span>
@@ -732,7 +732,7 @@ export default function Dashboard({ stats, articles: initialArticles, sources: i
               <div className="space-y-6 flex-1">
                 <div>
                   <h4 className="text-sm font-semibold text-zinc-300 mb-2 flex items-center gap-1.5">
-                    <BookOpen size={16} className="text-violet-400" /> Resumo Executivo
+                    <BookOpen size={16} className="text-violet-400" /> Resumo da Novidade
                   </h4>
                   <p className="text-sm text-zinc-400 leading-relaxed bg-zinc-900/20 p-4 rounded-xl border border-zinc-900/50">
                     {selectedArticle.summary}
@@ -742,7 +742,7 @@ export default function Dashboard({ stats, articles: initialArticles, sources: i
                 <div className="p-4 rounded-xl bg-zinc-900/20 border border-zinc-900/50">
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="text-sm font-semibold text-zinc-300 flex items-center gap-1.5">
-                      <TrendingUp size={16} className="text-rose-400" /> Probabilidade de Citação
+                      <TrendingUp size={16} className="text-rose-400" /> Valor Educativo
                     </h4>
                     <span className="text-sm font-bold text-rose-400">{selectedArticle.citationProbability}%</span>
                   </div>
@@ -752,19 +752,19 @@ export default function Dashboard({ stats, articles: initialArticles, sources: i
                       style={{ width: `${selectedArticle.citationProbability}%` }}
                     />
                   </div>
-                  <p className="text-[10px] text-zinc-500 mt-2">Chance deste artigo ser utilizado e referenciado como fonte primária em respostas geradas por IA.</p>
+                  <p className="text-[10px] text-zinc-500 mt-2">Grau de importância para o profissional de marketing/SEO aprender e aplicar esta mudança em sua rotina.</p>
                 </div>
 
                 <div className="p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
                   <h4 className="text-sm font-semibold text-emerald-400 mb-2 flex items-center gap-1.5">
-                    <ShieldCheck size={16} /> Análise E-E-A-T
+                    <ShieldCheck size={16} /> O Que Mudou?
                   </h4>
                   <p className="text-xs text-emerald-300/80 leading-relaxed">{selectedArticle.eeatAnalysis}</p>
                 </div>
 
                 <div className="p-4 rounded-xl bg-cyan-500/5 border border-cyan-500/10">
                   <h4 className="text-sm font-semibold text-cyan-400 mb-2 flex items-center gap-1.5">
-                    <Award size={16} /> Autoridade Semântica
+                    <Award size={16} /> Como se Adaptar?
                   </h4>
                   <p className="text-xs text-cyan-300/80 leading-relaxed">{selectedArticle.semanticAuthority}</p>
                 </div>
