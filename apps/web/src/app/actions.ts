@@ -139,7 +139,7 @@ export async function getArticlesList() {
       }
     });
 
-    return articles.map(art => {
+    return articles.map((art: any) => {
       const latestScore = art.scores[0];
       const latestSummary = art.summaries[0];
       
