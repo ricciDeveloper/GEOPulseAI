@@ -188,7 +188,7 @@ export async function getSourcesList() {
       orderBy: { name: 'asc' }
     });
     
-    return sources.map(s => ({
+    return sources.map((s: any) => ({
       id: s.id,
       name: s.name,
       url: s.url,
