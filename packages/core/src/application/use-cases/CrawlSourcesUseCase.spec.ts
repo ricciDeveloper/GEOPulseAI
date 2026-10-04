@@ -42,6 +42,7 @@ describe('CrawlSourcesUseCase', () => {
     // Assert
     expect(result.sourcesProcessed).toBe(1);
     expect(result.newArticlesSaved).toBe(1);
+    expect(result.failedSources).toEqual([]);
 
     const savedArticle = await articleRepository.findByUrl('https://seoblog.com/new-trend');
     expect(savedArticle).toBeDefined();
@@ -84,6 +85,7 @@ describe('CrawlSourcesUseCase', () => {
 
     // Assert
     expect(result.newArticlesSaved).toBe(0);
+    expect(result.failedSources).toEqual([]);
   });
 
   it('should continue crawling other sources if one fails', async () => {
@@ -130,8 +132,40 @@ describe('CrawlSourcesUseCase', () => {
     // Assert
     expect(result.sourcesProcessed).toBe(2);
     expect(result.newArticlesSaved).toBe(1);
+    expect(result.failedSources).toEqual(['Failing Blog']);
     
     const saved = await articleRepository.findByUrl('https://work.com/article1');
     expect(saved).toBeDefined();
+  });
+
+  it('should start crawling active RSS sources concurrently', async () => {
+    const sourceRepository = new InMemorySourceRepository();
+    const articleRepository = new InMemoryArticleRepository();
+    const firstSource = Source.create({
+      name: 'First Blog',
+      url: 'https://first.com',
+      rssUrl: 'https://first.com/rss'
+    });
+    const secondSource = Source.create({
+      name: 'Second Blog',
+      url: 'https://second.com',
+      rssUrl: 'https://second.com/rss'
+    });
+    await sourceRepository.save(firstSource);
+    await sourceRepository.save(secondSource);
+
+    let startedCrawls = 0;
+    const mockCrawler: Crawler = {
+      fetch: vi.fn(async () => {
+        startedCrawls++;
+        return { title: 'Feed', items: [] };
+      })
+    };
+    const useCase = new CrawlSourcesUseCase(sourceRepository, articleRepository, mockCrawler);
+
+    await useCase.execute();
+
+    expect(startedCrawls).toBe(2);
+    expect(mockCrawler.fetch).toHaveBeenCalledTimes(2);
   });
 });

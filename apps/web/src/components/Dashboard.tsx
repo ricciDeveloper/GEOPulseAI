@@ -200,17 +200,17 @@ export default function Dashboard({ stats, articles: initialArticles, sources: i
   };
 
   const handleSync = () => {
-    setSyncStatus('Validando URLs e sincronizando fontes...');
+    setSyncStatus('Sincronizando fontes RSS...');
     setSyncSuccess(false);
     startTransition(async () => {
       const res = await syncSourcesAction();
       if (res.success) {
-        const skippedMsg = res.skippedSources && res.skippedSources.length > 0
-          ? ` | ${res.skippedSources.length} fonte(s) pulada(s) por URL inválida: ${res.skippedSources.join(', ')}.`
+        const failedMsg = res.failedSources && res.failedSources.length > 0
+          ? ` | Falha ao processar: ${res.failedSources.join(', ')}.`
           : '';
         setSyncSuccess(true);
         setSyncStatus(
-          `Fontes processadas: ${res.sourcesProcessed}. Novos artigos: ${res.newArticlesSaved}.${skippedMsg}`
+          `Fontes processadas: ${res.sourcesProcessed}. Novos artigos: ${res.newArticlesSaved}.${failedMsg}`
         );
         setTimeout(() => window.location.reload(), 2500);
       } else {

@@ -94,7 +94,7 @@ export class PrismaSourceRepository implements SourceRepository {
     };
 
     const saved = await this.prisma.source.upsert({
-      where: { id: source.id },
+      where: { url: source.url },
       create: { id: source.id, ...data },
       update: data
     });
@@ -128,7 +128,7 @@ export class PrismaArticleRepository implements ArticleRepository {
     };
 
     const saved = await this.prisma.article.upsert({
-      where: { id: article.id },
+      where: { url: article.url },
       create: { id: article.id, ...data },
       update: data
     });

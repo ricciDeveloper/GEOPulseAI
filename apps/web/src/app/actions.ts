@@ -1,10 +1,10 @@
 'use server';
 
-import { prisma, sourceRepository, articleRepository, scoreRepository, summaryRepository } from '@geopulse/database';
-import { CrawlSourcesUseCase, AnalyzeArticleUseCase, Source, Article } from '@geopulse/core';
-import { RssCrawler, UrlValidator } from '@geopulse/crawler';
-import { GeminiProvider } from '@geopulse/ai';
+import { prisma, sourceRepository, articleRepository } from '@geopulse/database';
+import { Source, Article } from '@geopulse/core';
+import { UrlValidator } from '@geopulse/crawler';
 import { mockArticles, mockSources } from '../lib/mockData';
+import { syncSources } from '../lib/syncSources';
 import { revalidatePath } from 'next/cache';
 
 const urlValidator = new UrlValidator();
@@ -241,87 +241,13 @@ export async function addSourceAction(name: string, url: string, rssUrl: string)
 
 export async function syncSourcesAction() {
   try {
-    // Pre-validate all active source URLs before crawling
-    const allSources = await prisma.source.findMany({ where: { isActive: true, deletedAt: null } });
-    const skippedSources: string[] = [];
-
-    for (const src of allSources) {
-      const validation = await urlValidator.validateUrl(src.url);
-      if (!validation.isValid) {
-        console.warn(
-          `[UrlValidator] Fonte "${src.name}" (${src.url}) pulada: ${validation.error ?? `HTTP ${validation.statusCode}`}`
-        );
-        skippedSources.push(src.name);
-        // Mark source as inactive to prevent future crawls until manually re-enabled
-        await prisma.source.update({
-          where: { id: src.id },
-          data: { isActive: false }
-        });
-      }
-    }
-
-    const crawler = new RssCrawler();
-    const crawlerUseCase = new CrawlSourcesUseCase(sourceRepository, articleRepository, crawler);
-    
-    // Executa rastreamento (apenas fontes que passaram na validação)
-    const crawlResult = await crawlerUseCase.execute();
-    
-    // Se obteve novos artigos, vamos analisar usando Gemini ou Mock
-    if (crawlResult.newArticlesSaved > 0) {
-      const latestArticles = await prisma.article.findMany({
-        where: {
-          scores: { none: {} }, // Somente não analisados
-          deletedAt: null
-        }
-      });
-      
-      const apiKey = process.env.GEMINI_API_KEY;
-      let aiProvider;
-      
-      if (apiKey) {
-        aiProvider = new GeminiProvider(apiKey);
-      } else {
-        // Mock Provider para quando a chave não está no ambiente
-        aiProvider = {
-          analyzeArticle: async (content: string) => {
-            // Gera métricas realistas aleatórias para o simulador
-            const randomScore = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
-            const geo = randomScore(65, 95);
-            const aeo = randomScore(60, 92);
-            const visibility = Math.round((geo * 0.6) + (aeo * 0.4));
-            
-            return {
-              summary: 'Esta análise (simulada) resume didaticamente a mudança observada no mercado de busca por IA, destacando os pontos importantes da notícia.',
-              topics: ['Aprendizado', 'SEO', 'Atualização'],
-              geoScore: geo,
-              aeoScore: aeo,
-              aiVisibility: visibility,
-              eeatAnalysis: 'O algoritmo de busca por IA ou motores tradicionais sofreu ajustes focados em relevância semântica e respostas baseadas em fatos reais.',
-              citationProbability: randomScore(70, 95),
-              semanticAuthority: 'Recomenda-se estruturar as páginas com dados estruturados explícitos e respostas diretas a perguntas de usuários.'
-            };
-          }
-        };
-      }
-      
-      const analyzerUseCase = new AnalyzeArticleUseCase(
-        articleRepository,
-        scoreRepository,
-        summaryRepository,
-        aiProvider
-      );
-      
-      for (const art of latestArticles) {
-        await analyzerUseCase.execute(art.id);
-      }
-    }
-    
+    const crawlResult = await syncSources();
     revalidatePath('/');
     return {
       success: true,
       sourcesProcessed: crawlResult.sourcesProcessed,
       newArticlesSaved: crawlResult.newArticlesSaved,
-      skippedSources
+      failedSources: crawlResult.failedSources
     };
   } catch (error: any) {
     console.error('Erro na sincronização de fontes:', error);

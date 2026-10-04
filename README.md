@@ -25,6 +25,13 @@ Objetivos do Projeto
 -   Criar alertas inteligentes
 -   Possibilitar escalabilidade SaaS futura
 
+Automação e Persistência
+------------------------
+
+No deploy da Vercel, o `vercel.json` agenda a sincronização RSS a cada hora. Configure `CRON_SECRET` nas variáveis de ambiente do projeto; o endpoint rejeita chamadas sem o bearer token correspondente.
+
+O banco usa SQLite no arquivo `packages/database/prisma/dev.db`; não é necessário configurar `DATABASE_URL` para desenvolvimento local. Se definida, `DATABASE_URL` pode apontar para outro arquivo SQLite (`file:...`). Para sincronizar o schema, use `npm run db:push --workspace=@geopulse/database`; para inspecionar os dados, use `npm run db:studio --workspace=@geopulse/database`. Em funções serverless da Vercel, o sistema de arquivos não é persistente entre execuções, então o SQLite local não é adequado para persistência de produção.
+
 * * * * *
 
 Principais Features
