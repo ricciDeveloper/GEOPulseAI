@@ -28,9 +28,9 @@ Objetivos do Projeto
 Automação e Persistência
 ------------------------
 
-No deploy da Vercel, o `vercel.json` agenda a sincronização RSS a cada hora. Configure `CRON_SECRET` nas variáveis de ambiente do projeto; o endpoint rejeita chamadas sem o bearer token correspondente.
+O banco de dados usa PostgreSQL gerenciado pelo Supabase, acessado pelo Prisma no servidor. Copie .env.example para packages/database/.env e preencha as strings de conexão em DATABASE_URL e DIRECT_URL em Supabase > Project Settings > Database > Connection string. Use a conexão do pooler em modo Transaction (porta 6543) para a aplicação e a conexão direta (porta 5432) para migrações. As variáveis NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY são configuração pública do cliente Supabase; não substituem a conexão PostgreSQL usada pelo Prisma. Nunca exponha senha do banco ou chave service_role em variáveis NEXT_PUBLIC_*.
 
-O banco usa SQLite no arquivo `packages/database/prisma/dev.db`; não é necessário configurar `DATABASE_URL` para desenvolvimento local. Se definida, `DATABASE_URL` pode apontar para outro arquivo SQLite (`file:...`). Para sincronizar o schema, use `npm run db:push --workspace=@geopulse/database`; para inspecionar os dados, use `npm run db:studio --workspace=@geopulse/database`. Em funções serverless da Vercel, o sistema de arquivos não é persistente entre execuções, então o SQLite local não é adequado para persistência de produção.
+Após configurar as conexões, sincronize o schema com npm run db:push --workspace=@geopulse/database durante a configuração inicial. Para evoluir o banco de forma versionada, crie migrações com npm run db:migrate --workspace=@geopulse/database -- --name nome_da_migracao e aplique-as em produção com npm run db:deploy --workspace=@geopulse/database. Para inspecionar os dados, use npm run db:studio --workspace=@geopulse/database. O arquivo SQLite local anterior não é copiado automaticamente para o Supabase.
 
 * * * * *
 
