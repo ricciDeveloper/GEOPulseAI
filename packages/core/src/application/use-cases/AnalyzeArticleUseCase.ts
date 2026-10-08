@@ -1,5 +1,5 @@
 import { ArticleRepository, ScoreRepository, SummaryRepository } from '../../domain/repositories/repositories';
-import { AiProvider } from '../../domain/services/AiProvider';
+import { AiProvider, DEFAULT_AI_MODEL } from '../../domain/services/AiProvider';
 import { Score } from '../../domain/entities/Score';
 import { Summary } from '../../domain/entities/Summary';
 
@@ -39,7 +39,7 @@ export class AnalyzeArticleUseCase {
         citationProbability: analysis.citationProbability,
         semanticAuthority: analysis.semanticAuthority
       }),
-      model: 'gemini-2.5-flash'
+      model: DEFAULT_AI_MODEL
     });
     await this.summaryRepository.save(summary);
 

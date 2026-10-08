@@ -29,7 +29,7 @@ describe('GeminiProvider', () => {
   it('should generate a structured article analysis', async () => {
     const provider = new GeminiProvider('fake-api-key');
     
-    const result = await provider.analyzeArticle('Texto longo de teste', 'gemini-2.5-flash');
+    const result = await provider.analyzeArticle('Texto longo de teste', 'gemini-3.5-flash-lite');
     
     expect(result).toBeDefined();
     expect(result.summary).toBe('Resumo teste');
@@ -45,7 +45,7 @@ describe('GeminiProvider', () => {
   it('should support legacy summarize method', async () => {
     const provider = new GeminiProvider('fake-api-key');
     
-    const result = await provider.summarize('Texto longo de teste', 'gemini-2.5-flash');
+    const result = await provider.summarize('Texto longo de teste', 'gemini-3.5-flash-lite');
     
     expect(result).toBeDefined();
     expect(result.summary).toBe('Resumo teste');

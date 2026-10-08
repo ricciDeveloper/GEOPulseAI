@@ -56,7 +56,7 @@ describe('AnalyzeArticleUseCase', () => {
     expect(result.score.aiVisibility).toBe(92);
 
     expect(result.summary.articleId).toBe(article.id);
-    expect(result.summary.model).toBe('gemini-2.5-flash');
+    expect(result.summary.model).toBe('gemini-3.5-flash-lite');
 
     const parsedSummary = JSON.parse(result.summary.content);
     expect(parsedSummary.summary).toBe('Executive summary text.');

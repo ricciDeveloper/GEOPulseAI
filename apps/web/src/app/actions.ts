@@ -1,7 +1,7 @@
 'use server';
 
 import { prisma, sourceRepository, articleRepository } from '@geopulse/database';
-import { Source, Article } from '@geopulse/core';
+import { Source, Article, DEFAULT_AI_MODEL } from '@geopulse/core';
 import { UrlValidator } from '@geopulse/crawler';
 import { mockArticles, mockSources } from '../lib/mockData';
 import { syncSources } from '../lib/syncSources';
@@ -74,7 +74,7 @@ async function ensureSeed() {
               citationProbability: ma.citationProbability,
               semanticAuthority: ma.semanticAuthority
             }),
-            model: 'gemini-2.5-flash'
+            model: DEFAULT_AI_MODEL
           }
         });
       }
