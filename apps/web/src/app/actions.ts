@@ -247,6 +247,8 @@ export async function syncSourcesAction() {
       success: true,
       sourcesProcessed: crawlResult.sourcesProcessed,
       newArticlesSaved: crawlResult.newArticlesSaved,
+      articlesAnalyzed: crawlResult.articlesAnalyzed,
+      analysisFailures: crawlResult.analysisFailures,
       failedSources: crawlResult.failedSources
     };
   } catch (error: any) {

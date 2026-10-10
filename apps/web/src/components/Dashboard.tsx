@@ -65,6 +65,9 @@ export default function Dashboard({ stats, articles: initialArticles, sources: i
   const [selectedArticle, setSelectedArticle] = useState<ArticleData | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [selectedSource, setSelectedSource] = useState('');
+  const [publishedFrom, setPublishedFrom] = useState('');
+  const [publishedTo, setPublishedTo] = useState('');
   const [showUnreadOnly, setShowUnreadOnly] = useState(false);
   const [isAddSourceOpen, setIsAddSourceOpen] = useState(false);
   const [newSourceName, setNewSourceName] = useState('');
@@ -93,14 +96,19 @@ export default function Dashboard({ stats, articles: initialArticles, sources: i
       art.sourceName.toLowerCase().includes(searchTerm.toLowerCase());
     
     const matchesTag = selectedTag ? art.topics.includes(selectedTag) : true;
+    const matchesSource = selectedSource ? art.sourceId === selectedSource : true;
+    const publishedDate = new Date(art.publishedAt);
+    const matchesFrom = publishedFrom ? publishedDate >= new Date(publishedFrom + 'T00:00:00') : true;
+    const dayAfterPublishedTo = publishedTo ? new Date(publishedTo + 'T00:00:00') : null;
+    if (dayAfterPublishedTo) dayAfterPublishedTo.setDate(dayAfterPublishedTo.getDate() + 1);
+    const matchesTo = dayAfterPublishedTo ? publishedDate < dayAfterPublishedTo : true;
     const matchesReadFilter = showUnreadOnly ? (isHydrated ? !isViewed(art.id) : true) : true;
     
-    return matchesSearch && matchesTag && matchesReadFilter;
+    return matchesSearch && matchesTag && matchesSource && matchesFrom && matchesTo && matchesReadFilter;
   });
 
-  const allTags = Array.from(
-    new Set(articles.flatMap(art => art.topics))
-  ).slice(0, 15);
+  const allTopics = Array.from(new Set(articles.flatMap(art => art.topics)));
+  const allTags = allTopics.slice(0, 15);
 
   const unreadCount = isHydrated ? articles.filter(art => !isViewed(art.id)).length : articles.length;
 
@@ -208,9 +216,15 @@ export default function Dashboard({ stats, articles: initialArticles, sources: i
         const failedMsg = res.failedSources && res.failedSources.length > 0
           ? ` | Falha ao processar: ${res.failedSources.join(', ')}.`
           : '';
+        const analysisMsg = res.articlesAnalyzed
+          ? ` Descrições preenchidas: ${res.articlesAnalyzed}.`
+          : '';
+        const analysisFailureMsg = res.analysisFailures
+          ? ` Falha ao gerar descrição de ${res.analysisFailures} artigo(s); nova tentativa na próxima sincronização.`
+          : '';
         setSyncSuccess(true);
         setSyncStatus(
-          `Fontes processadas: ${res.sourcesProcessed}. Novos artigos: ${res.newArticlesSaved}.${failedMsg}`
+          `Fontes processadas: ${res.sourcesProcessed}. Novos artigos: ${res.newArticlesSaved}.${analysisMsg}${analysisFailureMsg}${failedMsg}`
         );
         setTimeout(() => window.location.reload(), 2500);
       } else {
@@ -418,6 +432,46 @@ export default function Dashboard({ stats, articles: initialArticles, sources: i
                 className="w-full bg-zinc-900 border border-zinc-800 rounded-xl py-2 px-3 pl-9 text-sm text-zinc-200 focus:outline-none focus:border-violet-500"
               />
               <Search className="absolute left-3 top-2.5 text-zinc-500" size={16} />
+            </div>
+          </div>
+
+          {/* Faceted content filters */}
+          <div className="glass-panel rounded-2xl p-5">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-sm font-semibold text-zinc-300 flex items-center gap-2">
+                <Calendar size={16} className="text-cyan-400" />
+                Filtrar conteúdos
+              </h2>
+              {(selectedSource || publishedFrom || publishedTo || selectedTag) && (
+                <button onClick={() => { setSelectedSource(''); setPublishedFrom(''); setPublishedTo(''); setSelectedTag(null); }} className="text-xs text-violet-400 hover:text-violet-300">Limpar</button>
+              )}
+            </div>
+            <div className="flex flex-col gap-3">
+              <label className="text-[11px] text-zinc-400 flex flex-col gap-1">
+                Tema
+                <select value={selectedTag ?? ''} onChange={e => setSelectedTag(e.target.value || null)} className="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-200 focus:outline-none focus:border-violet-500">
+                  <option value="">Todos os temas</option>
+                  {allTopics.map(topic => <option key={topic} value={topic}>{topic}</option>)}
+                </select>
+              </label>
+              <label className="text-[11px] text-zinc-400 flex flex-col gap-1">
+                Fonte
+                <select value={selectedSource} onChange={e => setSelectedSource(e.target.value)} className="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-200 focus:outline-none focus:border-violet-500">
+                  <option value="">Todas as fontes</option>
+                  {sources.map(source => <option key={source.id} value={source.id}>{source.name}</option>)}
+                </select>
+              </label>
+              <div className="grid grid-cols-2 gap-2">
+                <label className="text-[11px] text-zinc-400 flex flex-col gap-1">
+                  Publicado de
+                  <input type="date" value={publishedFrom} max={publishedTo || undefined} onChange={e => setPublishedFrom(e.target.value)} className="min-w-0 bg-zinc-900 border border-zinc-800 rounded-lg px-2 py-2 text-xs text-zinc-200 focus:outline-none focus:border-violet-500" />
+                </label>
+                <label className="text-[11px] text-zinc-400 flex flex-col gap-1">
+                  Publicado até
+                  <input type="date" value={publishedTo} min={publishedFrom || undefined} onChange={e => setPublishedTo(e.target.value)} className="min-w-0 bg-zinc-900 border border-zinc-800 rounded-lg px-2 py-2 text-xs text-zinc-200 focus:outline-none focus:border-violet-500" />
+                </label>
+              </div>
+              {selectedTag && <span className="text-[10px] text-zinc-500">Tema selecionado: #{selectedTag}</span>}
             </div>
           </div>
 
